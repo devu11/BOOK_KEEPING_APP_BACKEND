@@ -9,7 +9,7 @@ router.get("/findBook",findBook)
 router.get('/findBook/:bookId', findSingleBook);
 router.put("/updateBook/:bookId",updateBook)
 router.delete("/deleteBook/:bookId",deleteBook)
-router.get('/search',searchBook)
+router.get('/search', searchBook)
   
 
 

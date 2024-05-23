@@ -23,7 +23,7 @@ export const createBook = async(req,res)=>{
     }
   };
 
-  export const findSingleBook = async (req, res) => {
+  export const findSingleBook= async (req, res) => {
     try {
       const { bookId } = req.params;
       const book = await Book.findById(bookId);
@@ -73,7 +73,7 @@ export const createBook = async(req,res)=>{
 };
 
 
-export const searchBook = async(req,res)=>{
+export const searchBook= async(req,res)=>{
   try {
     const { query } = req.query;
     const books = await Book.find({
