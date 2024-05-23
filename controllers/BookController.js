@@ -14,16 +14,28 @@ export const createBook = async(req,res)=>{
   }
 
   
-  export const findBook = async(req,res)=>{
-    const book = await Book.find({})
-    if(book){
-      res.status(200);
-      res.json(book)
-    }else{
-      res.status(500);
-      throw new Error("No Books Available")
+  export const findBook = async (req, res) => {
+    const books = await Book.find({});
+    if (books) {
+      res.status(200).json(books);
+    } else {
+      res.status(500).json({ message: 'No Books Available' });
     }
-  }
+  };
+
+  export const findSingleBook = async (req, res) => {
+    try {
+      const { bookId } = req.params;
+      const book = await Book.findById(bookId);
+      if (book) {
+        res.status(200).json(book);
+      } else {
+        res.status(404).json({ message: 'Book not found' });
+      }
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  };
 
   export const   updateBook= async(req,res)=>{
     try {
@@ -59,3 +71,23 @@ export const createBook = async(req,res)=>{
         res.status(500).json({ message: error.message });
     }
 };
+
+
+export const searchBook = async(req,res)=>{
+  try {
+    const { query } = req.query;
+    const books = await Book.find({
+      $or: [
+        { title: { $regex: query, $options: 'i' } },
+        { author: { $regex: query, $options: 'i' } },
+      ],
+    });
+    if (books.length) {
+      res.status(200).json(books);
+    } else {
+      res.status(404).json({ message: 'No books found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
