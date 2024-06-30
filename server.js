@@ -3,6 +3,8 @@ import dbConnect from "./config/dbConnect.js"
 import { config } from 'dotenv';
 import cors from 'cors'; 
 import BooksRoute from './routes/BooksRoute.js'
+import AuthRoute from './routes/AuthRoute.js'
+// import { protect, admin } from "./controllers/AuthController.js";
 config();
 const app = express();
 const corsOptions = {
@@ -20,7 +22,10 @@ app.use(express.json())
 dbConnect();
 
 
-app.use('/book',BooksRoute)
+
+app.use('/auth', AuthRoute);
+app.use('/book', BooksRoute);
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
